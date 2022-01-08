@@ -53,12 +53,22 @@ jobs:
       - run: flutter pub get
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Install tools
+      - name: Build IPA
+        env:
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
-          flutter pub get
-          cd ./ios && pod install
-          mkdir -p /Users/runner/work/Documents/Cyberslovo/cd
-          ln -s ios/Runner/GoogleService-Info.plist /Users/runner/work/Documents/Cyberslovo/cd/GoogleService-Info.plist
-      - run: flutter build ios --release --no-codesign
+          echo "Unlocking keychain"
+          security unlock-keychain -p "KEYCHAIN_PASSWORD" ~/Library/Keychains/build.keychain
+          # Important, just in case the build takes longer than the default 300s timeout
+          # Otherwise the build will freeze at signing the frameworks if the keychain is locked
+          echo "Increasing keychain auto lock timeout"
+          security set-keychain-settings -lut 1800 ~/Library/Keychains/build.keychain
+          flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+          echo "Locking keychain"
+          security lock-keychain ~/Library/Keychains/build.keychain
+          - name: Upload IPA artifact
+            uses: actions/upload-artifact@v1
+            with:
+              name: release-ipa
+              path: ./build/ios/ipa/flutter_github_actions_basics.ipa
 #        It's for Faslu
