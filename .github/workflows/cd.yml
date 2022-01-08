@@ -21,14 +21,8 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - run: flutter pub get
       - run: flutter clean
-      - run: rm -Rf ios/Pods
-      - run: rm -Rf ios/.symlinks
-      - run: rm -Rf ios/Flutter/Flutter.framework
-      - run: rm -Rf ios/Flutter/Flutter.podspec
-      - run: rm ios/Podfile
-      - run: rm pubspec.lock
+      - run: flutter pub get
       - name: Install tools
         run: |
           flutter pub get
