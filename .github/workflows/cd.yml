@@ -5,8 +5,7 @@ on:
       - master
   push:
     branches:
-      - faslu
-      - main
+      - master
 jobs:
   build_ios:
     name: Build Flutter (iOS)
