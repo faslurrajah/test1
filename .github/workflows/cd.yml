@@ -1,0 +1,40 @@
+name: CD
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - faslu
+      - main
+jobs:
+  build_ios:
+    name: Build Flutter (iOS)
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        destination: ["platform=iOS Simulator,OS=12"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - run: rm -Rf ios/Pods
+      - run: rm -Rf ios/.symlinks
+      - run: rm -Rf ios/Flutter/Flutter.framework
+      - run: rm -Rf ios/Flutter/Flutter.podspec
+      - run: rm ios/Podfile
+      - run: rm pubspec.lock
+      - name: Install tools
+        run: |
+          flutter pub get
+          cd ./ios && pod install
+          mkdir -p /Users/runner/work/Documents/Cyberslovo/cd
+          ln -s ios/Runner/GoogleService-Info.plist /Users/runner/work/Documents/Cyberslovo/cd/GoogleService-Info.plist
+      - run: flutter build ios --release --no-codesign
+#        It's for Faslu
