@@ -63,12 +63,12 @@ jobs:
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
           security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
-          flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+          flutter build ipa --release
           echo "Locking keychain"
           security lock-keychain $KEYCHAIN_PATH
           - name: Upload IPA artifact
             uses: actions/upload-artifact@v1
             with:
               name: release-ipa
-              path: ./build/ios/ipa/flutter_github_actions_basics.ipa
+              path: ./build/ios/ipa/fasluRelease.ipa
 #        It's for Faslu
