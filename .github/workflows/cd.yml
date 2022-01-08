@@ -58,14 +58,14 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           echo "Unlocking keychain"
-          security unlock-keychain -p "KEYCHAIN_PASSWORD" ~/Library/Keychains/build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           # Important, just in case the build takes longer than the default 300s timeout
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
-          security set-keychain-settings -lut 1800 ~/Library/Keychains/build.keychain
+          security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
           flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
           echo "Locking keychain"
-          security lock-keychain ~/Library/Keychains/build.keychain
+          security lock-keychain $KEYCHAIN_PATH
           - name: Upload IPA artifact
             uses: actions/upload-artifact@v1
             with:
