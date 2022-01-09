@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - master
+      - manual
   push:
     branches:
       - master
@@ -76,4 +77,5 @@ jobs:
             with:
               name: release-ipa
               path: ./build/ios/ipa/fasluRelease.ipa
+
 #        It's for Faslu
