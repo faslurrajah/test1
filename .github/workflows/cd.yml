@@ -10,6 +10,7 @@ jobs:
   build_ios:
     name: Build Flutter (iOS)
     runs-on: macos-latest
+    
     strategy:
       matrix:
         destination: ["platform=iOS Simulator,OS=12"]
