@@ -54,6 +54,7 @@ jobs:
           channel: "stable"
       - run: flutter clean
       - run: flutter pub get
+    
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Build IPA
@@ -66,6 +67,7 @@ jobs:
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
           security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
+          flutter build ios
           xcodebuild -workspace  $PWD/ios/Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath $PWD/build/Runner.xcarchive
           echo "Locking keychain"
           security lock-keychain $KEYCHAIN_PATH
