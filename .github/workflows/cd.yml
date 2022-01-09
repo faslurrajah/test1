@@ -64,7 +64,7 @@ jobs:
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
           security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
-          xcodebuild -workspace $BITRISE_SOURCE_DIR/Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath ./build/Runner.xcarchive
+          xcodebuild -workspace /Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath ./build/Runner.xcarchive
           echo "Locking keychain"
           security lock-keychain $KEYCHAIN_PATH
           - name: Upload IPA artifact
