@@ -10,7 +10,7 @@ jobs:
   build_ios:
     name: Build Flutter (iOS)
     runs-on: macos-latest
-    
+
     strategy:
       matrix:
         destination: ["platform=iOS Simulator,OS=12"]
@@ -32,7 +32,7 @@ jobs:
           # import certificate and provisioning profile from secrets
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
-          
+
 
 
           # create temporary keychain
@@ -55,7 +55,7 @@ jobs:
           channel: "stable"
       - run: flutter clean
       - run: flutter pub get
-    
+
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Build IPA
@@ -68,7 +68,7 @@ jobs:
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
           security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
-          flutter build ipa --release
+          flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
           echo "Locking keychain"
           security lock-keychain $KEYCHAIN_PATH
           - name: Upload IPA artifact
