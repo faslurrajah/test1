@@ -21,6 +21,7 @@ jobs:
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          TEAMID: ${{ secrets.TEAMID }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -63,7 +64,7 @@ jobs:
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
           security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
-          flutter build ipa --release
+          xcodebuild -workspace Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath ./build/Runner.xcarchive          flutter build ipa --release
           echo "Locking keychain"
           security lock-keychain $KEYCHAIN_PATH
           - name: Upload IPA artifact
