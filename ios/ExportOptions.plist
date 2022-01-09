@@ -8,5 +8,12 @@
     <string>2MUY7KN5Y9</string>
     <key>signingStyle</key>
     <string>manual</string>
+    <key>signingCertificate</key>
+    <string>iOS Distribution: POSSIBLE Mobile</string>
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>com.fr.test1</key>
+        <string>testCLI</string>
+    </dict>
 </dict>
 </plist>
