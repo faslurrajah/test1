@@ -67,8 +67,7 @@ jobs:
           # Otherwise the build will freeze at signing the frameworks if the keychain is locked
           echo "Increasing keychain auto lock timeout"
           security set-keychain-settings -lut 1800 $KEYCHAIN_PATH
-          flutter build ios
-          xcodebuild -workspace  $PWD/ios/Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath $PWD/build/Runner.xcarchive
+          flutter build ipa --release
           echo "Locking keychain"
           security lock-keychain $KEYCHAIN_PATH
           - name: Upload IPA artifact
