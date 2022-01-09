@@ -48,7 +48,7 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      - uses: sparkfabrik/ios-build-action@v1.0.0
+      - uses: sparkfabrik/ios-build-action@v1.1.0
         with:
           project-path: App.xcodeproj
           p12-base64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
