@@ -9,7 +9,7 @@
     <key>signingStyle</key>
     <string>manual</string>
     <key>signingCertificate</key>
-    <string>iOS Distribution: POSSIBLE Mobile</string>
+    <string>Apple Distribution: Faslu Rajan</string>
     <key>provisioningProfiles</key>
     <dict>
         <key>com.fr.test1</key>
